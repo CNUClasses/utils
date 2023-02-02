@@ -3,11 +3,12 @@ Packages:  In addition to normal anaconda distribution, you will probably need t
       
 Usage:  Simplest is to add the path where this package is to the system path
         and then import the package
-        ex.  For the following configuration
 
-        ![](./media/dirstruct.png)
+        ex.  For the following configuration
+        ![](https://github.com/CNUClasses/utils/blob/master/media/dirstruct.png)
 
         tmp.py should contain the following lines
+'''
 #the following gives access to utils folder
 #where utils package stores shared code
 import os
@@ -23,3 +24,4 @@ if (PROJECT_ROOT not in sys.path):
 
 #now you can import from utils
 from utils.transforms import *
+'''
