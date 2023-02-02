@@ -1,14 +1,15 @@
-## utils package for Data 301
+# utils package for Data 301
 Packages:  In addition to normal anaconda distribution, you will probably need to install the names package
       
 Usage:  Simplest is to add the path where this package is to the system path
         and then import the package
 
-        ex.  For the following configuration
-        ![](https://github.com/CNUClasses/utils/blob/master/media/dirstruct.png)
+ex.  For the following configuration
 
-        tmp.py should contain the following lines
-'''
+![My_image](https://github.com/CNUClasses/utils/blob/master/media/dirstruct.png)
+
+tmp.py should contain the following lines
+
 #the following gives access to utils folder
 #where utils package stores shared code
 import os
