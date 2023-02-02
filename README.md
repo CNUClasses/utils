@@ -10,7 +10,7 @@ ex.  For the following configuration
 
 tmp.py should contain the following lines
 
-`code`
+`
 #the following gives access to utils folder
 #where utils package stores shared code
 import os
@@ -26,4 +26,4 @@ if (PROJECT_ROOT not in sys.path):
 
 #now you can import from utils
 from utils.transforms import *
-'''
+`
