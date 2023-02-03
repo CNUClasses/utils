@@ -66,7 +66,7 @@ def ps_replace_punctuation(df,features,punc="[!\"#$%&\'()*+,-./:;<=>?@[\\]^_{|}~
     return df
 
 
-def remove_duplicates(df,features=None, verbose=True):
+def remove_duplicates(df,features, verbose=True):
     '''
     remove duplicate strings, duplicates determined based on columns in features
     
@@ -74,6 +74,11 @@ def remove_duplicates(df,features=None, verbose=True):
     features: a list of columns to consider for duplicates, if None then all considered
     returns: transformed df
     '''
+    
+    # need to have columns to work with
+    if(not features):
+        return df
+    
     #are there any?
     dups=df.duplicated(subset=features)
     ndups=dups.sum()
@@ -204,7 +209,7 @@ def run_pipeline(df,dup_features, dummy_features, ordinal_features, ordering_dic
     ordering_dict:custom ordering dictionary of dictionaries, very likely hand generated, see cat_ordinal for ex
     returns: transformed df
     '''
-    return df.pipe(impute_NaNs).pipe(ps_lower_strip,dup_features).pipe(ps_replace_punctuation,dup_features).pipe(remove_duplicates,dup_features).pipe(cat_ordinal,ordinal_features,ordering_dict).pipe(drop_no_variance_columns).pipe(scale).pipe(cat_getdummies, ['t_shirt_color']).pipe(drop_correlated_columns)
+    return df.pipe(impute_NaNs).pipe(ps_lower_strip,dup_features).pipe(ps_replace_punctuation,dup_features).pipe(remove_duplicates,dup_features).pipe(cat_ordinal,ordinal_features,ordering_dict).pipe(drop_no_variance_columns).pipe(scale).pipe(cat_getdummies, dummy_features).pipe(drop_correlated_columns)
     
 if __name__=='__main__':
     pass
