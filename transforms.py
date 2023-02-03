@@ -113,7 +113,7 @@ def cat_getdummies(df, features):
     get dummy vars for each feature
 
     df: dataframe to operate on
-    features: a list of columns to apply to
+    features: a list of columns to get dummy variables for
     return: transformed df
     '''
     for feat in features:
@@ -196,8 +196,13 @@ def drop_no_variance_columns(df,verbose=True):
 
 def run_pipeline(df,dup_features, dummy_features, ordinal_features, ordering_dict):
     '''
-    runs a pipeline
-    
+    Convenience method: runs a pipeline of above transforms on a dataframe
+    df:
+    dup_features:a list of columns to consider for duplicates, if None then all considered
+    dummy_features:a list of columns to get dummy variables for
+    ordinal_features:a list of columns to apply to (likely 1)
+    ordering_dict:custom ordering dictionary of dictionaries, very likely hand generated, see cat_ordinal for ex
+    returns: transformed df
     '''
     return df.pipe(impute_NaNs).pipe(ps_lower_strip,dup_features).pipe(ps_replace_punctuation,dup_features).pipe(remove_duplicates,dup_features).pipe(cat_ordinal,ordinal_features,ordering_dict).pipe(drop_no_variance_columns).pipe(scale).pipe(cat_getdummies, ['t_shirt_color']).pipe(drop_correlated_columns)
     
