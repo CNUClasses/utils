@@ -29,6 +29,12 @@ def generate_tshirt_order(numb_small=100, numb_medium=100, numb_large=100, dups=
     assumme: average small person weighs 100lbs
              average medium weighs 140 lbs
              average large weighs 180 lbs
+    numb_small: numb size small t_shirts
+    numb_medium:numb size medium t_shirts
+    numb_large: numb size large t_shirts
+    dups: number duplicate rows appended to dataframe
+    percent_nans: fraction of t_shirt_sizes to set to np.NaN
+    returns: dataframe of t shirts        
     '''
     #generate a bunch of t-shirts with the following mean,std,numbershirts
     x = np.random.normal(100, 15, numb_small)
