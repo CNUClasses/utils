@@ -58,6 +58,10 @@ def ps_replace_punctuation(df,features,punc="[!\"#$%&\'()*+,-./:;<=>?@[\\]^_{|}~
     features: a list of columns to apply transform to
     return: transformed df
     '''
+    # need to have columns to work with
+    if(not features):
+        return df
+    
     def psp_closure(x):
         return re.sub(punc,replace_with,x)
     
@@ -209,7 +213,7 @@ def run_pipeline(df,dup_features, dummy_features, ordinal_features, ordering_dic
     ordering_dict:custom ordering dictionary of dictionaries, very likely hand generated, see cat_ordinal for ex
     returns: transformed df
     '''
-    return df.pipe(impute_NaNs).pipe(ps_lower_strip,dup_features).pipe(ps_replace_punctuation,dup_features).pipe(remove_duplicates,dup_features).pipe(cat_ordinal,ordinal_features,ordering_dict).pipe(drop_no_variance_columns).pipe(scale).pipe(cat_getdummies, dummy_features).pipe(drop_correlated_columns)
+    return df.pipe(remove_duplicates,dup_features).pipe(cat_ordinal,ordinal_features,ordering_dict).pipe(drop_no_variance_columns).pipe(scale).pipe(cat_getdummies, dummy_features).pipe(drop_correlated_columns)
     
 if __name__=='__main__':
     pass
