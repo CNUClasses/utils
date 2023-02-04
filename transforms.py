@@ -160,7 +160,7 @@ def scale(df,features=None):
         min max scaler
         '''
         #check to see if its already scaled 0->1
-        if ( x.min()==0 and x.nax()==1):
+        if ( x.min()==0 and x.max()==1):
             return x
         
         return (x-x.min())/(x.max()-x.min())
