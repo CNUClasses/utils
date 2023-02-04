@@ -131,9 +131,11 @@ def cat_getdummies(df, features):
 
 
 from sklearn.preprocessing import StandardScaler
-def scale(df,scaler=StandardScaler(), features=None):
+def scale(df,features=None):
     '''
-    scales numerical_features using the provided scaler 
+    scales numerical_features using the provided scaler
+    min_max scales all features that only have 2 values
+    standard scales all others
 
     df: dataframe to operate on
     features: a list of columns to apply to
@@ -142,7 +144,28 @@ def scale(df,scaler=StandardScaler(), features=None):
     '''
     if(features is None):
         features=[df.dtypes.index[i] for i,val in enumerate(df.dtypes) if val != 'object']
-    df[features] = scaler.fit_transform(df[features])
+        
+    #get list of binary columns
+    bin_columns=[df.dtypes.index[i] for i,val in enumerate(df.nunique()) if val ==2]
+    bin_columns=[val for val in bin_columns if val in features]
+    
+    #remove binary columns from feature columns
+    features=[val for val in features if val not in bin_columns]
+
+    #standard scale features columns
+    df[features] = StandardScaler().fit_transform(df[features])
+    
+    def mm(x):
+        '''
+        min max scaler
+        '''
+        #check to see if its already scaled 0->1
+        if ( x.min()==0 and x.nax()==1):
+            return x
+        
+        return (x-x.min())/(x.max()-x.min())
+    df[bin_columns].apply(mm,axis=0)
+    
     return df
 
 #find extra correlated columns

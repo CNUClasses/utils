@@ -62,3 +62,14 @@ def show_regression_formula(mod, target, independant_var, show_explanation=True)
         s=s+f'{coef:.3f}*{ind_var}'
     print(s +f' +{mod.intercept_:.3f}')
     
+def show_thresholds(df, threshold=1):
+    '''
+    shows all columns with variance<=threshold
+    df: a dataframe to inspect
+    return: nothing
+    '''
+    #lets see what the low variance columns have in them
+    for col in data.columns:
+        if(data[f'{col}'].nunique() <= threshold):
+            print(f'{col}, vals={data[f"{col}"].unique()} ')
+    
