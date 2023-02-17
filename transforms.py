@@ -70,7 +70,7 @@ def ps_replace_punctuation(df,features,punc="[!\"#$%&\'()*+,-./:;<=>?@[\\]^_{|}~
     return df
 
 
-def remove_duplicates(df,features, verbose=True):
+def remove_duplicates(df,features=None, verbose=True):
     '''
     remove duplicate strings, duplicates determined based on columns in features
     
@@ -81,7 +81,7 @@ def remove_duplicates(df,features, verbose=True):
     
     # need to have columns to work with
     if(not features):
-        return df
+        features=list(df.columns)
     
     #are there any?
     dups=df.duplicated(subset=features)
@@ -169,7 +169,7 @@ def scale(df,features=None):
     return df
 
 #find extra correlated columns
-def get_correlated_columns(df,correlation_threshold ):
+def get_correlated_columns(df,correlation_threshold=.95):
     '''
     df: a dataframe
     correlation_threshold: select all rows and columns that have a correlation >= to this value
@@ -191,6 +191,8 @@ def get_correlated_columns(df,correlation_threshold ):
 
 def drop_correlated_columns(df,correlation_threshold = .95, verbose=True):
     '''
+    Drops 1 of each 2 correlated columns
+    CAREFUL WITH THIS ONE< YOU WANT TO DROP THE COLUMN WITH THE LEAST INFORMATION
     df: a dataframe
     return: df with 1 of each 2 correlated columns dropped
     '''

@@ -20,7 +20,9 @@ colors1 = {-1:"black",
            7:"teal",
            8:"pink",
            9:"gold",
-           10:"royalblue"
+           10:"royalblue",
+           11:"bisque",
+           12:"brown"
           }
 
 #TODO plot a 3D plot of first 3 PCA components, set hue to the cluster_guess from KMeans above
