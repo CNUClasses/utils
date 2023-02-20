@@ -6,8 +6,14 @@ from random import gauss
 # from sklearn.preprocessing import StandardScaler
 
 #to generate people names
-import names
-
+import logging
+try:
+    import names
+except ImportError as e:
+    logging.error("Missing names package\nPlease install by typing '!pip install names' in a jupyter cell\nor by typing 'pip install names' in a terminal window")
+    raise
+    
+    
 PROCESSED_DATA = "./data.feather"
 
 # make some duplicates just to show how to handle duplicates (delete them)
