@@ -168,13 +168,17 @@ def scale(df,features=None):
     
     return df
 
+
 #find extra correlated columns
-def get_correlated_columns(df,correlation_threshold=.95):
+def get_correlated_columns(df,correlation_threshold ):
     '''
     df: a dataframe
     correlation_threshold: select all rows and columns that have a correlation >= to this value
     return: list of tuples of form [ (col,row),...]
     '''
+    #make sure we do correlations on non-object columns only
+    df = df.loc[:, df.dtypes != 'object']
+    
     # generate the correlation matrix (abs converts to absolute value, this way we only look for 1 color range)
     corr = df.corr().abs()
     # Generate mask for the upper triangle (see https://seaborn.pydata.org/examples/many_pairwise_correlations.html)

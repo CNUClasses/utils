@@ -90,6 +90,6 @@ def gendata(ns, max_val= RAND_MAX_VAL, min_val=RAND_MIN_VAL, max_rise=MAX_RISE):
     '''
     x = [val for val in range(ns)]
     y=[random.random()*(max_val-min_val)+min_val + val + max_rise + max_val*gauss(0,1) for val in range(ns)]
-    x=np.array(x).reshape(-1,1)
-    y=np.array(y).reshape(-1,1)
-    return(x,y)
+    # x=np.array(x).reshape(-1,1)
+    # y=np.array(y).reshape(-1,1)
+    return np.array(x),np.array(y)

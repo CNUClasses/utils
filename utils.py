@@ -37,7 +37,7 @@ def scoremodel(clf,X_test, y_test):
     print("Score on test set using rsquared: {:.2f}".format(rsq))
     
 from sklearn import linear_model
-def train_model(X,y):
+def train_linreg_model(X,y):
     '''
     X: train on this, for this notebook its 1 column of data
     y: the target
