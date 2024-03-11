@@ -170,7 +170,7 @@ def scale(df,features=None):
 
 
 #find extra correlated columns
-def get_correlated_columns(df,correlation_threshold ):
+def get_correlated_columns(df,correlation_threshold =.95):
     '''
     df: a dataframe
     correlation_threshold: select all rows and columns that have a correlation >= to this value

@@ -73,3 +73,18 @@ def show_thresholds(df, threshold=1):
         if(data[f'{col}'].nunique() <= threshold):
             print(f'{col}, vals={data[f"{col}"].unique()} ')
     
+NSAMPLES=300
+RANDOM_STATE=999
+MIN_SAMPLES = 6
+from sklearn.neighbors import NearestNeighbors
+def get_sorted_distances( X, min_samples=MIN_SAMPLES):
+    '''
+    X:data 
+    distances: the sorted distances to MIN_SAMPLES points for every point in X
+    plot: to plot the knee or not
+    return: sorted distances in descending order
+    '''
+    nbrs = NearestNeighbors(n_neighbors=min_samples ).fit(X)
+    distances, indices = nbrs.kneighbors(X)
+    distance_descending = sorted(distances[:,min_samples-1], reverse=True)
+    return distance_descending
