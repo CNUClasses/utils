@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 #%matplotlib ipympl
 
 #determines color of points plotted, typically cluster number
-colors1 = {-1:"black",
+colors1 = {-2:"brown",
+            -1:"black",
             0:"cyan",
            1:"orange", 
            2:"purple",

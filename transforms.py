@@ -117,23 +117,24 @@ def cat_ordinal(df, features, order):
     return df
 
 
-def cat_getdummies(df, features):
+def cat_getdummies(df, features, dtype=float):
     '''
     get dummy vars for each feature
 
     df: dataframe to operate on
     features: a list of columns to get dummy variables for
+    dtype: type of the dummy variables
     return: transformed df
     '''
     for feat in features:
-        df = pd.get_dummies(df, columns=[feat])
+        df = pd.get_dummies(df, drop_first=True,columns=[feat],dtype=dtype)
     return df
 
 
 from sklearn.preprocessing import StandardScaler
 def scale(df,features=None):
     '''
-    scales numerical_features using the provided scaler
+    in place scales numerical_features using the provided scaler
     min_max scales all features that only have 2 values
     standard scales all others
 
@@ -145,10 +146,9 @@ def scale(df,features=None):
     if(features is None):
         features=[df.dtypes.index[i] for i,val in enumerate(df.dtypes) if val != 'object']
         
-    #get list of binary columns
-    bin_columns=[df.dtypes.index[i] for i,val in enumerate(df.nunique()) if val ==2]
-    bin_columns=[val for val in bin_columns if val in features]
-    
+    #get list of binary columns, these only have 2 values so will be min/max scaled (so they will be either 0 or 1
+    bin_columns=[val for val in features if df[val].nunique()==2]
+
     #remove binary columns from feature columns
     features=[val for val in features if val not in bin_columns]
 
