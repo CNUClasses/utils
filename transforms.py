@@ -117,7 +117,7 @@ def cat_ordinal(df, features, order):
     return df
 
 
-def cat_getdummies(df, features, dtype=float):
+def cat_getdummies(df, features, dtype=float, drop_first=True):
     '''
     get dummy vars for each feature
 
@@ -127,7 +127,7 @@ def cat_getdummies(df, features, dtype=float):
     return: transformed df
     '''
     for feat in features:
-        df = pd.get_dummies(df, drop_first=True,columns=[feat],dtype=dtype)
+        df = pd.get_dummies(df, columns=[feat],dtype=dtype, drop_first=drop_first)
     return df
 
 
