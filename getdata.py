@@ -7,11 +7,13 @@ from random import gauss
 
 #to generate people names
 import logging
+INCLUDE_NAMES = True
 try:
     import names
 except ImportError as e:
     logging.error("Missing names package\nPlease install by typing '!pip install names' in a jupyter cell\nor by typing 'pip install names' in a terminal window")
-    raise
+    INCLUDE_NAMES = False
+    # raise
     
     
 PROCESSED_DATA = "./data.feather"
@@ -22,9 +24,9 @@ def fun1(df,numb=5):
     #generates numb rows from df
     return (df.iloc[0:numb,:])
 
-def generate_tshirt_order(numb_small=100, numb_medium=100, numb_large=100, dups=0, percent_nans=0.0):
+def generate_tshirt_order1(number_each_size=100, sizes={'s':(75, 15),'m':(100, 15), 'l':(130, 20), 'xl':(165, 20), 'xxl':(200,25)},dups=0, percent_nans=0.0):
     '''
-    generate a t-shirt order with the above mix of sizes
+    generate a t-shirt order with the above mix of sizes, medians and std
     use the names module to generate random names associated with each order (see https://pypi.org/project/names/https://pypi.org/project/names/)
     add a color column with a random color
     add a name column with a random name
@@ -32,34 +34,27 @@ def generate_tshirt_order(numb_small=100, numb_medium=100, numb_large=100, dups=
     add an Age column with random ages between 8 and 18
     return: a Pandas DataFrame
 
-    assumme: average small person weighs 100lbs
-             average medium weighs 140 lbs
-             average large weighs 180 lbs
-    numb_small: numb size small t_shirts
-    numb_medium:numb size medium t_shirts
-    numb_large: numb size large t_shirts
+    sizes: dict with the mean and std for each size
     dups: number duplicate rows appended to dataframe
     percent_nans: fraction of t_shirt_sizes to set to np.NaN
     returns: dataframe of t shirts        
     '''
     #generate a bunch of t-shirts with the following mean,std,numbershirts
-    x = np.random.normal(100, 15, numb_small)
-    x = np.concatenate((x, np.random.normal(140, 20, numb_medium)))
-    x = np.concatenate((x, np.random.normal(180, 30, numb_large)))
+    x = np.empty(0)
+    s = np.empty(0,dtype=object)
+    for size, (mean, std) in sizes.items():
+        x = np.concatenate((x, np.random.normal(mean, std, number_each_size)))
+        s = np.concatenate((s, np.full(number_each_size, size)))
 
-    size=np.empty(300, dtype=object)
-    size[:numb_small] = 'small'
-    size[numb_small:numb_small+numb_medium] = 'medium'
-    size[numb_small+numb_medium:numb_small+numb_medium+numb_large] = 'large'
-
-    d = {'weight': x, 't_shirt_size': size}
+    d = {'weight': x, 't_shirt_size': s}
     df = pd.DataFrame(data=d)
 
     ts_colors = ['green','blue','orange','red','black']
 
-    df['t_shirt_color'] = np.random.choice(ts_colors, size=numb_small+numb_medium+numb_large)
-    df['name'] = "Unknown"
-    df.name = df.name.map(lambda x: names.get_full_name())
+    df['t_shirt_color'] = np.random.choice(ts_colors, size=number_each_size*len(sizes))
+    if(INCLUDE_NAMES):
+        df['name'] = "Unknown"
+        df.name = df.name.map(lambda x: names.get_full_name())
 
     #generate an age (integer)
     df['Age'] = np.random.randint(8, 18, len(df))
@@ -76,6 +71,9 @@ def generate_tshirt_order(numb_small=100, numb_medium=100, numb_large=100, dups=
         #lose orig size
         df.loc[res,'t_shirt_size']=np.NaN
     return df
+
+def generate_tshirt_order(numb_small=100, numb_medium=100,numb_large=100, dups=0, percent_nans=0.0):
+    return generate_tshirt_order1(number_each_size=numb_small, sizes={'s':(75, 15),'m':(100, 15), 'l':(130, 20)}, dups=dups,percent_nans= percent_nans)
 
 NUMB_SAMPLES = 100
 RAND_MAX_VAL =10
